@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>To-Do App</title>
+        <link rel="stylesheet" href="css/reset.css" />
+        <link rel="stylesheet" href="css/styles.css" />
+        <link
+            href="https://fonts.googleapis.com/css?family=Architects+Daughter&display=swap"
+            rel="stylesheet"
+        />
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css"
+            integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"
+        />
+        <script src="js/script.js" type="module"></script>
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <h1>To-Do List</h1>
+            </header>
+            <main>
+                <h2>List Title</h2>
+                <form id="form" action="/">
+                    <input id="input" type="text" placeholder="Enter Item" />
+                    <button id="addBtn" type="submit">+</button>
+                </form>
+                <ul id="item-list">
+                    <!-- <li>
+                        Orange Juice
+                        <button class="remove-btn btn-link text-yellow">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
+                    </li>  -->
+                </ul>
+                <button id="clear" class="btn-clear">Clear All</button>
+            </main>
+        </div>
+    </body>
+</html>
