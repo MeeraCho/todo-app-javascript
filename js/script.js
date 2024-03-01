@@ -46,6 +46,22 @@ function createDeleteIcon(classes){
 }
 
 //-----------------Clear UI State----------------
+function filterItems(e){
+    const items = itemList.querySelectorAll('li');
+    const text = e.target.value.toLowerCase();
+
+    items.forEach((item)=>{
+        const itemName = item.firstChild.textContent.toLowerCase();
+        
+        if (itemName.indexOf(text) != -1){
+            item.style.display = 'flex'
+        } else {
+            item.style.display = 'none'
+        }
+    })
+}
+
+//-----------------Clear UI State----------------
 
 function resetUI(){
     const items = itemList.querySelectorAll('li');
@@ -73,7 +89,6 @@ function clearAll(e){
             itemList.firstChild.remove()
         }
     }
-
     resetUI();
 }
 
@@ -81,6 +96,7 @@ function clearAll(e){
 form.addEventListener('submit', onSubmitList);
 itemList.addEventListener('click', removeItem);
 clearBtn.addEventListener('click', clearAll);
+filterInput.addEventListener('input', filterItems);
 
 resetUI()
 
