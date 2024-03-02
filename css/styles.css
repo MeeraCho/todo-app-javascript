@@ -2,3 +2,14 @@
     display: none;
 }
 
+.edit-mode {
+    color: skyblue;
+}
+
+.green {
+    background-color: '#228B22';
+}
+
+.add-mode {
+    background-color: transparent;
+}

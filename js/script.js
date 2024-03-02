@@ -1,9 +1,11 @@
 const form = document.querySelector('form');
-const itemInput = document.querySelector('input');
-const btn = document.querySelector('btn');
-const itemList = document.querySelector('ul');
+const itemInput = document.querySelector('#item-input');
+const formBtn = document.querySelector('.form-btn');
+const itemList = document.querySelector('#item-list');
 const clearBtn = document.querySelector('#clear-all');
 const filterInput = document.querySelector('#filter');
+let isEditMode = false;
+
 
 //------------- add item to the list ---------------
 function onAddItemSubmit(e){
@@ -17,10 +19,33 @@ function onAddItemSubmit(e){
         return;
     }
 
-    //save it to DOM
+    // check duplicate item 
+    if (checkIfItemExists(newItem)){
+        alert('That item already exists.')
+        return;
+    }
+
+    // Check for edit mode
+    if (isEditMode) {
+        const itemToEdit = itemList.querySelector('.edit-mode');
+        
+        itemToEdit.remove();
+        removeItemfromStorage(itemToEdit.textContent);
+
+        itemToEdit.classList.remove('edit-mode');
+
+        isEditMode = false; 
+    } else {
+        if (checkIfItemExists(newItem)){
+            alert('That item already exists.')
+            return;
+        }
+    }
+
+    //save item to DOM
     addItemToDOM(newItem);
 
-    //save it to Local Storage
+    //save item to Local Storage
     addItemToLocalStorage(newItem);
 
     resetUI();
@@ -30,7 +55,7 @@ function onAddItemSubmit(e){
 function addItemToDOM(newItem){
     const li = document.createElement('li');
     li.appendChild(document.createTextNode(newItem));
-    li.appendChild(createDeleteBtn('delete-btn btn-link text-yellow'));
+    li.appendChild(createDeleteBtn('remove-btn btn-link'));
 
     itemList.appendChild(li);
 }
@@ -69,6 +94,13 @@ function createDeleteIcon(classes){
     return icon
 }
 
+//---------Check Duplicate Items----------
+function checkIfItemExists(item){
+    const itemsFromStorage = getItemfromStorage();
+    return itemsFromStorage.includes(item)
+}
+
+
 //---------Display Item from Local Storage----------
 function displayItems() {
     const itemsFromStorage = getItemfromStorage() 
@@ -92,8 +124,10 @@ function filterItems(e){
     })
 }
 
-//-----------------Clear UI State----------------
+//-----------------Reset UI State----------------
 function resetUI(){
+    itemInput.value = '';
+
     const items = itemList.querySelectorAll('li');
     if ( items.length === 0 ){
         filterInput.classList.add('hidden');
@@ -102,12 +136,25 @@ function resetUI(){
         filterInput.classList.remove('hidden');
         clearBtn.classList.remove('hidden');
     }
+
+    formBtn.innerHTML = '<i class="fa-solid fa-plus"></i>';
+    formBtn.classList.add('add-mode')
+    
+    isEditMode = false;
 }
 
 //----------------- Remove Items ----------------
 function onClickRemoveItem(e){
+    if(e.target.tagName === 'BUTTON'){
+        removeItem(e.target.parentElement)
+    }
+
     if(e.target.tagName === 'I'){
         removeItem(e.target.parentElement.parentElement)
+    }
+
+    if(e.target.tagName === 'LI'){
+        setItemToEdit(e.target);
     }
 }
 
@@ -142,6 +189,16 @@ function clearAll(e){
         localStorage.removeItem('items')
     }
     resetUI();
+}
+
+//----------------- Edit Items ----------------
+function setItemToEdit(itemToEdit){
+    isEditMode = true;
+
+    itemToEdit.classList.add('edit-mode');
+    formBtn.innerHTML = '<i class="fa-solid fa-pen"></i>';
+    // formBtn.style.backgroundColor = '#228B22';
+    itemInput.value = itemToEdit.textContent; 
 }
 
 //----------------- Event Listeners ----------------
